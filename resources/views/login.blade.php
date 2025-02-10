@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Login</h2>
+
+        @include('components.alerts')
+        
+        {{-- {{ route('login') }} --}}
+        <form method="POST" action="">
+            @csrf
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                <input id="email" type="email" name="email" required autofocus class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+                <input id="password" type="password" name="password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            
+            <div class="flex items-center justify-between mb-4">
+                <label class="flex items-center">
+                    <input type="checkbox" name="remember" class="mr-2">
+                    <span class="text-gray-600 text-sm">Remember Me</span>
+                </label>
+                <a href="#" class="text-blue-500 text-sm hover:underline">Forgot Password?</a>
+            </div>
+            
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Login</button>
+        </form>
+        
+        <p class="text-sm text-center text-gray-600 mt-4">Belum punya akun? <a href="/register" class="text-blue-500 hover:underline">Daftar</a></p>
+    </div>
+</body>
+</html>
