@@ -12,7 +12,7 @@ Lead List
 @section('content')
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-bold text-gray-700">Leads List</h2>
-        <a href="/leads/create" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Lead</a>
+        <a href="{{ route('leads.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Lead</a>
     </div>
 
     @if (session('success'))

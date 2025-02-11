@@ -13,17 +13,18 @@
         @include('components.alerts')
         
         {{-- {{ route('login') }} --}}
-        <form method="POST" action="">
+        <form method="POST" action="{{ route('login-store') }}">
             @csrf
+            @method('POST')
             
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
-                <input id="email" type="email" name="email" required autofocus class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
-                <input id="password" type="password" name="password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input id="password" type="password" name="password" value="{{ old('password') }}" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             
             <div class="flex items-center justify-between mb-4">
@@ -37,7 +38,7 @@
             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Login</button>
         </form>
         
-        <p class="text-sm text-center text-gray-600 mt-4">Belum punya akun? <a href="/register" class="text-blue-500 hover:underline">Daftar</a></p>
+        <p class="text-sm text-center text-gray-600 mt-4">Belum punya akun? <a href="{{ route('register.register') }}" class="text-blue-500 hover:underline">Daftar</a></p>
     </div>
 </body>
 </html>

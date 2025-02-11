@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('title')
-Lead List
+Products List
 @endsection
 
 @section('css')
@@ -12,7 +12,7 @@ Lead List
 @section('content')
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-bold text-gray-700">Products List</h2>
-        <a href="/leads/create" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Product</a>
+        <a href="{{ route('products.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Product</a>
     </div>
 
     @if (session('success'))
@@ -33,22 +33,24 @@ Lead List
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach ($leads as $lead)
+                @foreach ($product as $item)
                     <tr class="bg-white hover:bg-gray-100">
                         <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->name }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->email }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->phone }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ $item->name ?? '' }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ $item->description ?? '' }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ $item->price ?? 0.0 }}</td>
                         <td class="border border-gray-300 px-4 py-2 flex space-x-2">
-                            <a href="/leads/{{ $lead->id }}/edit" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
-                            <form action="/leads/{{ $lead->id }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                            {{-- href="/leads/{{ $lead->id }}/edit" --}}
+                            {{-- action="/leads/{{ $lead->id }}"  --}}
+                            <a href="{{ route('products.create', ['id' => $item]) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
+                            <form method="POST" onsubmit="return confirm('Are you sure?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
                             </form>
                         </td>
                     </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
     </div>

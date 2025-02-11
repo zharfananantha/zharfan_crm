@@ -12,13 +12,14 @@
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <a href="/" class="text-lg font-bold">Zharfan's PT Smart CRM</a>
             <ul class="flex space-x-4">
-                <li><a href="{{ route('leads') }}" class="hover:underline">Leads</a></li>
-                <li><a href="{{ route('products') }}" class="hover:underline">Products</a></li>
-                <li><a href="{{ route('projects') }}" class="hover:underline">Projects</a></li>
-                <li><a href="{{ route('customers') }}" class="hover:underline">Customers</a></li>
+                <li><a href="{{ route('leads.leads') }}" class="hover:underline">Leads</a></li>
+                <li><a href="{{ route('products.products') }}" class="hover:underline">Products</a></li>
+                <li><a href="{{ route('projects.projects') }}" class="hover:underline">Projects</a></li>
+                <li><a href="{{ route('customers.customers') }}" class="hover:underline">Customers</a></li>
                 <li>
-                    <form method="POST" action="">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
+                        @method('POST')
                         <button type="submit" class="hover:underline">Logout</button>
                     </form>
                 </li>
