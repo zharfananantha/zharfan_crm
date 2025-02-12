@@ -2,30 +2,28 @@
 
 namespace App\Services;
 
-use App\Models\Product;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Lead;
+use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 
-class ProductServices
+class LeadServices
 {
     public static function get()
     {
         try {
-            $products = Product::all();
+            $leads = Lead::all();
 
             return (object)[
                 'status' => 200,
-                'message' => 'Product Get successful',
+                'message' => 'Leads Get successful',
                 'errors' => null,
-                'data' => $products
+                'data' => $leads
             ];
         } catch (Exception $e) {
             return [
                 'status' => 500,
-                'message' => 'An error occurred while fetching products',
+                'message' => 'An error occurred while fetching leads',
                 'error' => $e->getMessage(),
                 'data' => null
             ];
@@ -39,32 +37,57 @@ class ProductServices
             
             if (isset($data['id'])) {
                 // Jika ID ada, update produk yang sudah ada
-                $product = Product::find($data['id']);
-                if (!$product) {
+                $lead = Lead::find($data['id']);
+                if (!$lead) {
                     return (object)[
                         'status' => 404,
-                        'message' => 'Product not found',
+                        'message' => 'Lead not found',
                         'errors' => null,
                         'data' => null
                     ];
                 }
 
-                $product->update([
+                $lead->update([
                     'name' => $data['name'],
-                    'description' => $data['description'] ?? null,
-                    'price' => $data['price'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'address' => $data['address'] ?? null,
+                    'product_id' => $data['product_id'],
                 ]);
 
-                $message = 'Product updated successfully';
+                $project = Project::where('lead_id', $data['id'])->first();
+                if (!$project) {
+                    return (object)[
+                        'status' => 404,
+                        'message' => 'Project not found',
+                        'errors' => null,
+                        'data' => null
+                    ];
+                }
+                $project->update([
+                    'lead_id' => $lead->id,
+                    'product_id' => $data['product_id'],
+                    'status' => $project->status,
+                ]);
+
+                $message = 'Lead updated successfully';
             } else {
                 // Jika ID tidak ada, buat produk baru
-                $product = Product::create([
+                $lead = Lead::create([
                     'name' => $data['name'],
-                    'description' => $data['description'] ?? null,
-                    'price' => $data['price'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'address' => $data['address'] ?? null,
+                    'product_id' => $data['product_id'],
                 ]);
 
-                $message = 'Product added successfully';
+                $project = Project::create([
+                    'lead_id' => $lead->id,
+                    'product_id' => $data['product_id'],
+                    'status' => 'p'
+                ]);
+
+                $message = 'Lead added successfully';
             }
 
             DB::commit();
@@ -73,7 +96,7 @@ class ProductServices
                 'status' => 200,
                 'message' => $message,
                 'errors' => null,
-                'data' => $product
+                'data' => $lead
             ];
         } catch (Exception $e) {
             DB::rollBack();
@@ -92,23 +115,23 @@ class ProductServices
         try {
             DB::beginTransaction();
     
-            $product = Product::find($id);
+            $lead = Lead::find($id);
     
-            if (!$product) {
+            if (!$lead) {
                 return (object)[
                     'status' => 404,
-                    'message' => 'Product not found',
+                    'message' => 'Lead not found',
                     'errors' => null,
                     'data' => null
                 ];
             }
     
-            $product->delete();
+            $lead->delete();
             DB::commit();
     
             return (object)[
                 'status' => 200,
-                'message' => 'Product deleted successfully',
+                'message' => 'Lead deleted successfully',
                 'errors' => null,
                 'data' => null
             ];
@@ -117,7 +140,7 @@ class ProductServices
     
             return (object)[
                 'status' => 500,
-                'message' => 'An error occurred while deleting the product',
+                'message' => 'An error occurred while deleting the Lead',
                 'errors' => $e->getMessage(),
                 'data' => null
             ];

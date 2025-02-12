@@ -12,7 +12,6 @@ Lead List
 @section('content')
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-bold text-gray-700">Projects List</h2>
-        <a href="/leads/create" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Project</a>
     </div>
 
     @if (session('success'))
@@ -25,30 +24,59 @@ Lead List
         <table class="w-full border-collapse border border-gray-300">
             <thead>
                 <tr class="bg-gray-200">
-                    <th class="border border-gray-300 px-4 py-2">#</th>
-                    <th class="border border-gray-300 px-4 py-2">Nama Lead</th>
-                    <th class="border border-gray-300 px-4 py-2">Nama Produk</th>
-                    <th class="border border-gray-300 px-4 py-2">Status</th>
-                    <th class="border border-gray-300 px-4 py-2">Actions</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">#</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">Nama Lead</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">Kontak Lead</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">Nama Produk</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">Status</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach ($leads as $lead)
+                @foreach ($projects as $item)
                     <tr class="bg-white hover:bg-gray-100">
-                        <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->name }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->email }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->phone }}</td>
-                        <td class="border border-gray-300 px-4 py-2 flex space-x-2">
-                            <a href="/leads/{{ $lead->id }}/edit" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
-                            <form action="/leads/{{ $lead->id }}" method="POST" onsubmit="return confirm('Are you sure?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
-                            </form>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->lead?->name ?? '-' }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">
+                            <div class="flex flex-col text-left">
+                                <span class="text-sm font-semibold text-gray-700">Email : {{ $item->lead?->email ?? '-' }}</span>
+                                <span class="text-xs font-semibold text-gray-500">Phone : {{ $item->lead?->phone ?? '-' }}</span>
+                            </div>
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->product?->name }} - Rp. {{ number_format($item->product?->price, 0, ',', '.') }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">
+                            @if (strtolower($item->status) == 'a')
+                                <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">Approved</span>
+                            @elseif (strtolower($item->status) == 'r')
+                                <span class="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">Rejected</span>
+                            @else
+                                <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-3 py-1 rounded-full">Pending</span>
+                            @endif
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">
+                            @if (strtolower($item->status) == 'a')
+                            <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">Project Approved</span>
+                            @elseif (strtolower($item->status) == 'r')
+                            <span class="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">Project Rejected</span>
+                            @else
+                                <form action="{{ route('projects.update') }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('POST')
+                                    <input type="hidden" name="id" value="{{ $item->id }}" />
+                                    <input type="hidden" name="lead_id" value="{{ $item->lead_id }}" />
+                            
+                                    <select name="status" onchange="this.form.submit()"
+                                        class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option disabled selected>-- Update Status --</option>
+                                        <option value="p">Hold</option>
+                                        <option value="a" {{ $item->status == 'a' ? 'selected' : '' }}>Approve</option>
+                                        <option value="r" {{ $item->status == 'r' ? 'selected' : '' }}>Reject</option>
+                                    </select>
+                                </form>
+                            @endif
                         </td>
                     </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
     </div>

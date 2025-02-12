@@ -47,6 +47,7 @@ class AuthServices
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
+                'user_type_id' => $data['role'],
             ]);
             
             DB::commit();

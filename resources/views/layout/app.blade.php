@@ -12,9 +12,11 @@
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <a href="/" class="text-lg font-bold">Zharfan's PT Smart CRM</a>
             <ul class="flex space-x-4">
-                <li><a href="{{ route('leads.leads') }}" class="hover:underline">Leads</a></li>
                 <li><a href="{{ route('products.products') }}" class="hover:underline">Products</a></li>
-                <li><a href="{{ route('projects.projects') }}" class="hover:underline">Projects</a></li>
+                <li><a href="{{ route('leads.leads') }}" class="hover:underline">Leads</a></li>
+                @if (auth()->user()->user_type_id > 1)
+                    <li><a href="{{ route('projects.projects') }}" class="hover:underline">Projects</a></li>
+                @endif
                 <li><a href="{{ route('customers.customers') }}" class="hover:underline">Customers</a></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">
@@ -28,6 +30,11 @@
     </nav>
     
     <div class="max-w-6xl mx-auto mt-6 p-6 bg-white shadow-md rounded-lg">
+        @if(session('error'))
+            <div class="bg-red-500 text-white p-3 mb-4 rounded">
+                {{ session('error') }}
+            </div>
+        @endif
         @yield('content')
     </div>
 

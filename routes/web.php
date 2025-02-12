@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\UserTypeMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,45 +28,38 @@ Route::name('register.')
 
 Route::middleware([AuthMiddleware::class])
     ->group(function() {
-        Route::name('leads.')
-            ->prefix('leads')
-            ->group(function () {
-                Route::get('/', function () {
-                    return view('leads.lead');
-                })->name('leads');
-
-                Route::get('/create', function () {
-                    return view('leads.create');
-                })->name('create');
-        
-                Route::post('/leads-store', [LeadController::class, 'store'])->name('store');
-                
-            });
-
-        Route::name('customers.')
-            ->prefix('customers')
-            ->group(function () {
-                Route::get('/', function () {
-                    return view('customers.customer');
-                })->name('customers');
-                
-            });
-
         Route::name('products.')
             ->prefix('products')
             ->group(function () {
                 Route::get('/', [ProductController::class, 'index'])->name('products');
                 Route::get('/create/{id?}', [ProductController::class, 'create'])->name('create');
                 Route::post('/product-store', [ProductController::class, 'store'])->name('store');
+                Route::post('/product-delete', [ProductController::class, 'delete'])->name('delete');
                 
             });
-    
-        Route::name('projects.')
+
+        Route::name('leads.')
+            ->prefix('leads')
+            ->group(function () {
+                Route::get('/', [LeadController::class, 'index'])->name('leads');
+                Route::get('/create/{id?}', [LeadController::class, 'create'])->name('create');
+                Route::post('/lead-store', [LeadController::class, 'store'])->name('store');
+                Route::post('/lead-delete', [LeadController::class, 'delete'])->name('delete');
+                
+            });
+            
+        Route::middleware([UserTypeMiddleware::class])->name('projects.')
             ->prefix('projects')
             ->group(function () {
-                Route::get('/', function () {
-                    return view('projects.projects');
-                })->name('projects');
+                Route::get('/', [ProjectController::class, 'index'])->name('projects');
+                Route::post('/project-update', [ProjectController::class, 'update'])->name('update');
+                
+            });
+
+        Route::name('customers.')
+            ->prefix('customers')
+            ->group(function () {
+                Route::get('/', [CustomerController::class, 'index'])->name('customers');
                 
             });
     });

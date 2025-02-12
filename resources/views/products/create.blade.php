@@ -20,7 +20,9 @@ Create Products
     <form action="{{ route('products.store') }}" method="POST">
         @csrf
         @method('POST')
-        <input type="hidden" name="id" value="{{ $product ? $product->id : null }}" />
+        @if ($product)
+            <input type="hidden" name="id" value="{{ $product->id }}" />
+        @endif
         <div class="mb-4">
             <label class="block text-gray-700">Product Name <span class="text-red-500">*</span></label>
             <input type="text" name="name" value="{{ old('name') ? old('name') : ($product ? $product->name : '') }}" class="w-full p-2 border rounded" required>
@@ -28,8 +30,7 @@ Create Products
 
         <div class="mb-4">
             <label class="block text-gray-700">Description</label>
-            <textarea name="description" value="{{ old('description') ? old('description') : ($product ? $product->description : '') }}" class="w-full p-2 border rounded">{{ old('description') ? old('description') : ($product ? $product->description : '') }}
-            </textarea>
+            <textarea name="description" value="{{ old('description') ? old('description') : ($product ? $product->description : '') }}" class="w-full p-2 border rounded">{{ old('description') ? old('description') : ($product ? $product->description : '') }}</textarea>
         </div>
 
         <div class="mb-4">

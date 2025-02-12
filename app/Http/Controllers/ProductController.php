@@ -49,4 +49,16 @@ class ProductController extends Controller
 
         return redirect()->route('products.products')->with('success', $response->message);
     }
+
+    public function delete(Request $request)
+    {
+        
+        $response = ProductServices::delete($request->id);
+
+        if ($response->status === 200) {
+            return redirect()->route('products.products')->with('success', $response->message);
+        }
+    
+        return redirect()->route('products.products')->withErrors(['error' => $response->message]);
+    }
 }

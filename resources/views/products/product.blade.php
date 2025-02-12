@@ -35,17 +35,16 @@ Products List
             <tbody>
                 @foreach ($product as $item)
                     <tr class="bg-white hover:bg-gray-100">
-                        <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $item->name ?? '' }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $item->description ?? '' }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $item->price ?? 0.0 }}</td>
-                        <td class="border border-gray-300 px-4 py-2 flex space-x-2">
-                            {{-- href="/leads/{{ $lead->id }}/edit" --}}
-                            {{-- action="/leads/{{ $lead->id }}"  --}}
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->name ?? '' }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->description ?? '' }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">Rp. {{ number_format($item->price, 0, ',', '.') }}</td>
+                        <td class="border border-gray-300 px-4 py-2 flex items-center justify-center space-x-2">
                             <a href="{{ route('products.create', ['id' => $item]) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
-                            <form method="POST" onsubmit="return confirm('Are you sure?');">
+                            <form method="POST" action="{{ route('products.delete') }}" onsubmit="return confirm('Are you sure?');">
                                 @csrf
-                                @method('DELETE')
+                                @method('POST')
+                                <input type="hidden" name="id" value="{{ $item->id }}"/>
                                 <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
                             </form>
                         </td>

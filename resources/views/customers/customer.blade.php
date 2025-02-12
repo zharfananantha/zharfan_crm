@@ -12,7 +12,6 @@ Lead List
 @section('content')
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-bold text-gray-700">Customers List</h2>
-        <a href="/leads/create" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add Customer</a>
     </div>
 
     @if (session('success'))
@@ -29,27 +28,19 @@ Lead List
                     <th class="border border-gray-300 px-4 py-2">Nama Customer</th>
                     <th class="border border-gray-300 px-4 py-2">Email</th>
                     <th class="border border-gray-300 px-4 py-2">Phone</th>
-                    <th class="border border-gray-300 px-4 py-2">Layanan</th>
-                    <th class="border border-gray-300 px-4 py-2">Actions</th>
+                    <th class="border border-gray-300 px-4 py-2">Produk Langganan</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach ($leads as $lead)
+                @foreach ($customers as $item)
                     <tr class="bg-white hover:bg-gray-100">
-                        <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->name }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->email }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $lead->phone }}</td>
-                        <td class="border border-gray-300 px-4 py-2 flex space-x-2">
-                            <a href="/leads/{{ $lead->id }}/edit" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
-                            <form action="/leads/{{ $lead->id }}" method="POST" onsubmit="return confirm('Are you sure?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
-                            </form>
-                        </td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->name }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->email }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->phone }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $item->product?->name }} - Rp. {{ number_format($item->product?->price, 0, ',', '.') }}</td>
                     </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
     </div>
