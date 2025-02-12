@@ -27,14 +27,6 @@
                 <input id="password" type="password" name="password" value="{{ old('password') }}" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             
-            <div class="flex items-center justify-between mb-4">
-                <label class="flex items-center">
-                    <input type="checkbox" name="remember" class="mr-2">
-                    <span class="text-gray-600 text-sm">Remember Me</span>
-                </label>
-                <a href="#" class="text-blue-500 text-sm hover:underline">Forgot Password?</a>
-            </div>
-            
             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Login</button>
         </form>
         
