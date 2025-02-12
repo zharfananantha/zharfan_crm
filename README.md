@@ -72,3 +72,5 @@ Before you begin, ensure you have the following installed:
 ## Links 
 
 For your convenience, I have prepared a database backup that you can restore to your database. You can download it from the following [link](https://drive.google.com/drive/folders/18MsXJ7u8x4FsD3FJDwhedQef1oigTkP4?usp=sharing)
+
+I already deployed this demo crm, you can try and open it from the following [link](https://zharfancrm-production.up.railway.app/)
